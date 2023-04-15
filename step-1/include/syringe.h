@@ -1,4 +1,6 @@
 #pragma once
+
+#include <functional>
 // Internal names start with an underscore.
 
 // Extracts value of type T using a specific provider.

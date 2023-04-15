@@ -1,19 +1,16 @@
-# Step 1
+# Step 2
 
-The simplest implementation that is just barely useful.
+Adds key to bindings and a special struct `Keyed` to use for factory
+function arguments.
 
 ## How it works
 
-Injection is a compile-time operation. The injector is a struct that
-derives from multiple provider structs. They are from two families
-`_Binding` and `_Factory`. The injector's `get` implementation is a
-template function that generates code to build the entire dependency
-graph.
+Each Provider now has an additional type parameter, which defaults to some
+struct `_DefaultKey`. Specialization for `Keyed` parameters find the correct
+provider. Note that the C++ standard does not allow partial specialization of function templates. So we have to use a wrapper struct template with a static member function to implement partial specialization.
 
-## Problems
+## Remaining Problems
 
-- No Keys. Cannot inject different values of a given type. Guice and Dagger
-  have a key concept to tag providers. Boost.DI has a `named` annotation.
 - No Scope. Executes factory function every time a value is needed. We
   would like singleton and default scope. In C++ it might make sense to
   infer the scope from the factory function argument declaration. An
