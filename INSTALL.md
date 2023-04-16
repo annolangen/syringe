@@ -1,7 +1,17 @@
 In each step subdirectory, create an initial Makefile with a command like:
 
 ```shell
-mkdir build
-cd build
-cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_STANDARD=17 ..
+mkdir build && cd build && cmake ..
+```
+
+Then, try out the simple example:
+
+```shell
+make hello-world && ./hello-world
+```
+
+For tests, run:
+
+```shell
+make tests && ./tests
 ```
