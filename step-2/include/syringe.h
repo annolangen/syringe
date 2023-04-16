@@ -47,7 +47,8 @@ T _provide(_Factory<std::function<T(A...)>, K> &f, I &injector) {
   return std::invoke(f.callable, _InjectorWrapper<A, I>::get(injector)...);
 }
 
-// Holder of the provider type for a given type.
+// _BindingType<T, K, P...>::type is the _Binding<T, K> or _Factory
+// returning T with key K from the provider pack P.
 template <class T, class K, class... P>
 struct _BindingType {};
 
