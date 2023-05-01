@@ -10,16 +10,14 @@ struct Greeting {
 
 struct AddressKey {};
 
-Greeting MakeGreeting(Keyed<std::string, AddressKey> address,
-                      std::string greetee) {
-  return {address.value, greetee};
-}
-
 int main() {
   Greeting g = InjectorBuilder()
                    .bind<AddressKey>("Hello")
                    .bind("world")
-                   .addFactory(MakeGreeting)
+                   .addFactory(+[](Keyed<std::string, AddressKey> address,
+                                   std::string greetee) {
+                     return Greeting{address.value, greetee};
+                   })
                    .build()
                    .get<Greeting>();
   std::cout << g.address << " " << g.greetee << "!" << std::endl;
