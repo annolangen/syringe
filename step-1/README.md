@@ -4,11 +4,13 @@ The simplest implementation that is just barely useful.
 
 ## How it works
 
-Injection is a compile-time operation. The injector is a struct that
-derives from multiple provider structs. They are from two families
-`_Binding` and `_Factory`. The injector's `get` implementation is a
-template function that generates code to build the entire dependency
-graph.
+The injector is a class with a tuple member of providers. The providers are
+from two families `_Binding` and `_Factory`. The injector's template
+function `get` returns a value of the template paramter type. The type
+parameter is used to find the correct provider in the tuple.
+
+Injection is a compile-time operation. All templates are instantiated at
+compile time. The entire dependency graph is constructed at compile time.
 
 ## Problems
 

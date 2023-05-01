@@ -6,8 +6,10 @@ function arguments.
 ## How it works
 
 Each Provider now has an additional type parameter, which defaults to some
-struct `_DefaultKey`. Specialization for `Keyed` parameters find the correct
-provider. Note that the C++ standard does not allow partial specialization of function templates. So we have to use a wrapper struct template with a static member function to implement partial specialization.
+struct `_DefaultKey`. Specialization for `Keyed` parameters find the
+correct provider. Note that the C++ standard does not allow partial
+specialization of function templates. So we have to use a wrapper struct
+template with a static member function to implement partial specialization.
 
 ## Remaining Problems
 

@@ -1,13 +1,20 @@
-# Step 2
+# Step 3
 
-Adds key to bindings and a special struct `Keyed` to use for factory
-function arguments.
+Adds factory function matching and conversion matching. This is might no longer be just for toy programs.
 
 ## How it works
 
-Each Provider now has an additional type parameter, which defaults to some
-struct `_DefaultKey`. Specialization for `Keyed` parameters find the correct
-provider. Note that the C++ standard does not allow partial specialization of function templates. So we have to use a wrapper struct template with a static member function to implement partial specialization.
+std::decay_t<C> for various callable types, C, normalizes to a pointer
+function template parameter that breaks out the return type and argument
+parameter pack. Specifically, he result of `std::decay_t<C>` can be matched
+against `T (*)(A...)`. This allows us to match factory functions with the
+correct signature.
+
+The provider search now checks for conversion from the provided type to the
+requested type. I am not sure why I could not just use
+`std::enable_if_t<std::is_convertible_v<R,T>>`, but SFINAE works different
+than I expected. I ended up writing a helper that continues the search if
+the conversion fails.
 
 ## Remaining Problems
 
@@ -17,9 +24,4 @@ provider. Note that the C++ standard does not allow partial specialization of fu
   argument of type `std::unique_ptr<T>` requires an exclusive
   value. Arguments of type `const T&` might be stored for the life of the
   injector and re-used
-- Literal matching. A `const char*` provider should work for factory
-  argument of types like `std::string` and `std::string_view` to which the
-  value can be implicitly converted
-- No factory function matching. The factory function must be a value of
-  type `std::function`. We want references to functions and lambdas to work
 - Terrible error messages. It is templates
